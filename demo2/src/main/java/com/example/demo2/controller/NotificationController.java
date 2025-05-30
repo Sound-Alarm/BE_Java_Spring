@@ -1,0 +1,65 @@
+package com.example.demo2.controller;
+
+import com.example.demo2.model.EmergencyNotice;
+import com.example.demo2.model.Notification;
+import com.example.demo2.model.TypeNotification;
+import com.example.demo2.service.IEmergencyNoticeService;
+import com.example.demo2.service.INotificationService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/thongbao")
+@CrossOrigin(origins = "*")
+public class NotificationController {
+
+    @Autowired
+    private INotificationService notificationService;
+
+    @Autowired
+    private IEmergencyNoticeService emergencyNoticeService;
+
+    @PostMapping
+    public Notification createThongBao(@RequestBody Notification notification) {
+        System.out.println(notification);
+        System.out.println("ConveyorBelt");
+        System.out.println(notification.getConveyorBelt());
+
+        Notification checkJobTypeId = notificationService.getThongBaoByJobTypeId(notification.getJobTypeId(),
+                notification.getCuster(), notification.getConveyorBelt());
+        notificationService.createNotificationHistory(notification);
+        if (checkJobTypeId == null) {
+            return notificationService.createNotification(notification);
+        }
+        return notificationService.updateThongBao(checkJobTypeId, notification);
+    }
+
+    @GetMapping
+    public List<Notification> getAllThongBao() {
+        return notificationService.getAllThongBao();
+    }
+
+    @GetMapping("/chuadoc")
+    public List<Notification> getThongBaoChuaDoc() {
+        return notificationService.getThongBaoChuaDoc();
+    }
+
+    @PostMapping("/doc")
+    public void markAsRead(@RequestBody Notification notification) {
+        System.out.println(notification);
+        notificationService.deleteThongBao(notification);
+    }
+    @GetMapping("/emergency_notice")
+    public List<EmergencyNotice> getAllEmergencyNoticeController(){
+        return emergencyNoticeService.getAllEmergencyNotice();
+    }
+    @GetMapping("/type_notification")
+    public List<TypeNotification> getAllTypeNotificationController(){
+        return emergencyNoticeService.getAllTypeNotification();
+    }
+    @PostMapping("/create_emergency_notice")
+    public EmergencyNotice createEmergencyNoticeController(EmergencyNotice emergencyNotice){
+        return emergencyNoticeService.createEmergencyNotice(emergencyNotice);
+    }
+}
