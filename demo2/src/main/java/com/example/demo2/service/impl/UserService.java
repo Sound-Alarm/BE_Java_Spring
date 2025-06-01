@@ -100,8 +100,8 @@ public class UserService {
     }
 
     @SuppressWarnings("unchecked")
-    public void logout(String userId) {
-        Query query = new Query(Criteria.where("id").is(userId));
+    public void logout(String userName) {
+        Query query = new Query(Criteria.where("userName").is(userName));
         LocalDateTime now = LocalDateTime.now();
         Update update = new Update()
                 .set("isOnline", false)

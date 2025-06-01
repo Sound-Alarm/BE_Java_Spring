@@ -90,9 +90,9 @@ public class UserController {
         return ResponseEntity.badRequest().body("Invalid refresh token");
     }
 
-    @PostMapping("/logout/{userId}")
-    public ResponseEntity<?> logout(@PathVariable String userId) {
-        userService.logout(userId);
+    @PostMapping("/logout/{userName}")
+    public ResponseEntity<?> logout(@PathVariable String userName) {
+        userService.logout(userName);
         return ResponseEntity.ok().build();
     }
 
