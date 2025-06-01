@@ -28,7 +28,7 @@ public class NotificationController {
 
         Notification checkJobTypeId = notificationService.getThongBaoByJobTypeId(notification.getJobTypeId(),
                 notification.getCuster(), notification.getConveyorBelt());
-        notificationService.createNotificationHistory(notification);
+//        notificationService.createNotificationHistory(notification);
         if (checkJobTypeId == null) {
             return notificationService.createNotification(notification);
         }
@@ -48,7 +48,9 @@ public class NotificationController {
     @PostMapping("/doc")
     public void markAsRead(@RequestBody Notification notification) {
         System.out.println(notification);
-        notificationService.deleteNotification(notification);
+        Notification deleteNotification =notificationService.deleteNotification(notification);
+        notificationService.createNotificationHistory(deleteNotification);
+
     }
 
     @GetMapping("/emergency_notice")

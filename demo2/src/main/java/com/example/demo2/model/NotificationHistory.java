@@ -1,13 +1,13 @@
 package com.example.demo2.model;
 
+import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Objects;
 
 
+@Data
 @Document(collection = "notification_history")
 public class NotificationHistory {
     @Id
@@ -139,5 +139,22 @@ public class NotificationHistory {
 
     public void setConveyorBelt(ConveyorBelt conveyorBelt) {
         this.conveyorBelt = conveyorBelt;
+    }
+
+    @Override
+    public String toString() {
+        return "NotificationHistory{" +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", type='" + type + '\'' +
+                ", createAt=" + createAt +
+                ", closingTime=" + closingTime +
+                ", jobTypeId=" + jobTypeId +
+                ", indexTeam=" + indexTeam +
+                ", custer=" + custer +
+                ", conveyorBelt=" + conveyorBelt +
+                ", nameJobType='" + nameJobType + '\'' +
+                '}';
     }
 }

@@ -17,6 +17,8 @@ import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import org.bson.Document;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -86,7 +88,8 @@ public class NotificationService implements INotificationService {
         NotificationHistory notificationHistory = mongoTemplate.findOne(query,NotificationHistory.class);
         NotificationHistory newNotificationHistory = new NotificationHistory();
         BeanUtils.copyProperties(notification,newNotificationHistory);
-        if (notificationHistory != null){
+        if (notificationHistory == null){
+            newNotificationHistory.setClosingTime(LocalDateTime.now());
             return mongoTemplate.save(newNotificationHistory);
         }
        return null;
@@ -100,7 +103,7 @@ public class NotificationService implements INotificationService {
         return mongoTemplate.find(query, Notification.class);
     }
 
-    public void deleteNotification(Notification notification) {
+    public Notification deleteNotification(Notification notification) {
         Query query = new Query(Criteria.where("_id").is(notification.getId()));
         Notification notificationFindById = mongoTemplate.findOne(query, Notification.class);
 
@@ -136,7 +139,10 @@ public class NotificationService implements INotificationService {
                     "message", "Thông báo đã bị xóa"));
         } else {
             mongoTemplate.save(notificationFindById);
+
         }
+        return notificationFindById;
+
     }
 
     public Notification getThongBaoByJobTypeId(Integer jobTypeId, Custer custer, ConveyorBelt conveyorBeltList) {

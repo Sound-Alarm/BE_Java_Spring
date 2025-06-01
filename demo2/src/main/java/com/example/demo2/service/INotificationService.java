@@ -14,7 +14,7 @@ public interface INotificationService {
 
     List<Notification> getAllNotificationNotRead();
 
-    void deleteNotification(Notification notification);
+    Notification deleteNotification(Notification notification);
 
     Notification getThongBaoByJobTypeId(Integer jobTypeId, Custer custer, ConveyorBelt conveyorBeltList);
 
