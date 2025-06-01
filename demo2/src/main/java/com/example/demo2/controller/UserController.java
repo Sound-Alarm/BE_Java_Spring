@@ -6,6 +6,7 @@ import com.example.demo2.service.impl.UserService;
 import com.example.demo2.dto.LoginResponse;
 import com.example.demo2.dto.RegisterRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
@@ -50,6 +51,7 @@ public class UserController {
             user.setEmail(request.getEmail());
             Role newUserRole = userService.getRoleByCode(request.getCode());
             user.setRole(newUserRole);
+            user.setConveyorBelt(request.getConveyorBelt());
             User registeredUser = userService.register(user);
             return ResponseEntity.ok(registeredUser);
         } catch (RuntimeException e) {
@@ -71,6 +73,7 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Map<String, String> credentials) {
         LoginResponse loginResponse = userService.login(credentials.get("username"), credentials.get("password"));
+        System.out.println(loginResponse);
         if (loginResponse != null) {
             return ResponseEntity.ok(loginResponse);
         }
@@ -109,5 +112,11 @@ public class UserController {
     @GetMapping("/notifications")
     public ResponseEntity<?> getNotifications() {
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/conveyorBelt")
+    public ResponseEntity<?> getConveyorBelt(@RequestParam(value = "userName") String userName) {
+        System.out.println(userName);
+        return ResponseEntity.ok(userService.findConveyorBeltOfUser(userName));
     }
 }

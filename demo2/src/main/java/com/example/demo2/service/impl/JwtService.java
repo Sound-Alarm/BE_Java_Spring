@@ -18,7 +18,7 @@ public class JwtService {
     private static final long ACCESS_TOKEN_EXPIRATION = 1000 * 60 * 15; // 15 minutes
     private static final long REFRESH_TOKEN_EXPIRATION = 1000 * 60 * 60 * 24 * 7; // 7 days
 
-    public String generateAccessToken(String username, String roleCode, String roleName ) {
+    public String generateAccessToken(String username, String roleCode, String roleName) {
         return generateToken(username, ACCESS_TOKEN_EXPIRATION, roleCode, roleName);
     }
 
@@ -30,6 +30,7 @@ public class JwtService {
         Map<String, Object> claims = new HashMap<>();
         claims.put("role", roleCode);
         claims.put("roleName", roleName);
+        claims.put("username", username);
 
         return createToken(claims, username, expiration);
     }
@@ -62,23 +63,40 @@ public class JwtService {
     }
 
     public String extractUsername(String token) {
+        if (token == null || token.trim().isEmpty()) {
+            throw new IllegalArgumentException("Token cannot be null or empty");
+        }
         return extractClaim(token, Claims::getSubject);
     }
 
     public String extractRole(String token) {
+        if (token == null || token.trim().isEmpty()) {
+            throw new IllegalArgumentException("Token cannot be null or empty");
+        }
         return extractClaim(token, claims -> claims.get("role", String.class));
     }
 
     private <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+        if (token == null || token.trim().isEmpty()) {
+            throw new IllegalArgumentException("Token cannot be null or empty");
+        }
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
 
     private Claims extractAllClaims(String token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(getSigningKey())
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
+        if (token == null || token.trim().isEmpty()) {
+            throw new IllegalArgumentException("Token cannot be null or empty");
+        }
+        try {
+            return Jwts.parserBuilder()
+                    .setSigningKey(getSigningKey())
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+        } catch (Exception e) {
+            System.out.println("Error extracting claims from token: " + e.getMessage());
+            throw e;
+        }
     }
 }

@@ -16,15 +16,6 @@ public class LoginResponse {
     public LoginResponse() {
     }
 
-    public LoginResponse(String username, String email, String accessToken, String refreshToken, String role, String code) {
-        this.username = username;
-        this.email = email;
-        this.accessToken = accessToken;
-        this.refreshToken = refreshToken;
-        this.role = role;
-        this.code = code;
-    }
-
     public LoginResponse(String username, String email, String accessToken, String refreshToken, String role) {
         this.username = username;
         this.email = email;
@@ -39,5 +30,14 @@ public class LoginResponse {
         this.accessToken = accessToken;
         this.role = role;
 
+    }
+
+    public LoginResponse(String username, String email, String accessToken, String refreshToken, String role, String code) {
+        this.username = username;
+        this.email = email;
+        this.accessToken = accessToken;
+        this.refreshToken = refreshToken;
+        this.role = role;
+        this.code = code;
     }
 }

@@ -10,15 +10,15 @@ import java.util.List;
 public interface INotificationService {
     Notification createNotification(Notification notification);
     NotificationHistory createNotificationHistory(Notification notification);
-    List<Notification> getAllThongBao();
+    List<Notification> getAllNotification();
 
-    List<Notification> getThongBaoChuaDoc();
+    List<Notification> getAllNotificationNotRead();
 
-    void deleteThongBao(Notification notification);
+    void deleteNotification(Notification notification);
 
     Notification getThongBaoByJobTypeId(Integer jobTypeId, Custer custer, ConveyorBelt conveyorBeltList);
 
-    Notification updateThongBao(Notification existingNotification, Notification notification);
+    Notification updateNotification(Notification existingNotification, Notification notification);
 
     void markAsRead(String id);
 }

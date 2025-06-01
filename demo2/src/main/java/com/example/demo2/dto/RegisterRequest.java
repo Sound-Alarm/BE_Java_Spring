@@ -1,5 +1,6 @@
 package com.example.demo2.dto;
 
+import com.example.demo2.model.ConveyorBelt;
 import com.example.demo2.model.Role;
 import com.example.demo2.model.User;
 import
@@ -27,12 +28,22 @@ public class RegisterRequest {
     @NotBlank(message = "Vui lòng phân quyền cho user")
     private String code;
 
+    private ConveyorBelt conveyorBelt;
+
     public String getCode() {
         return code;
     }
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public ConveyorBelt getConveyorBelt() {
+        return conveyorBelt;
+    }
+
+    public void setConveyorBelt(ConveyorBelt conveyorBelt) {
+        this.conveyorBelt = conveyorBelt;
     }
 
     public String getUsername() {

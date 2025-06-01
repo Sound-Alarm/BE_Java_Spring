@@ -91,16 +91,16 @@ public class NotificationService implements INotificationService {
         }
        return null;
     }
-    public List<Notification> getAllThongBao() {
+    public List<Notification> getAllNotification() {
         return mongoTemplate.findAll(Notification.class);
     }
 
-    public List<Notification> getThongBaoChuaDoc() {
+    public List<Notification> getAllNotificationNotRead() {
         Query query = new Query(Criteria.where("daDoc").is(false));
         return mongoTemplate.find(query, Notification.class);
     }
 
-    public void deleteThongBao(Notification notification) {
+    public void deleteNotification(Notification notification) {
         Query query = new Query(Criteria.where("_id").is(notification.getId()));
         Notification notificationFindById = mongoTemplate.findOne(query, Notification.class);
 
@@ -148,7 +148,7 @@ public class NotificationService implements INotificationService {
         return existingNotification;
     }
 
-    public Notification updateThongBao(Notification existingNotification, Notification notification) {
+    public Notification updateNotification(Notification existingNotification, Notification notification) {
         // Tìm thông báo hiện tại
 
         if (existingNotification == null) {

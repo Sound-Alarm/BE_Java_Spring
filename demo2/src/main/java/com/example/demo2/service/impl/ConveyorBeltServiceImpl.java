@@ -6,6 +6,8 @@ import com.example.demo2.service.ConveyorBeltService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ConveyorBeltServiceImpl implements ConveyorBeltService {
     @Autowired
@@ -15,5 +17,10 @@ public class ConveyorBeltServiceImpl implements ConveyorBeltService {
     @Override
     public ConveyorBelt createConveyorBelt(ConveyorBelt conveyorBelt) {
         return conveyorBeltRepository.save(conveyorBelt);
+    }
+
+    @Override
+    public List<ConveyorBelt> getAllConveyorBelt() {
+        return conveyorBeltRepository.findAll();
     }
 }

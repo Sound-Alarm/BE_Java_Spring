@@ -32,34 +32,38 @@ public class NotificationController {
         if (checkJobTypeId == null) {
             return notificationService.createNotification(notification);
         }
-        return notificationService.updateThongBao(checkJobTypeId, notification);
+        return notificationService.updateNotification(checkJobTypeId, notification);
     }
 
     @GetMapping
-    public List<Notification> getAllThongBao() {
-        return notificationService.getAllThongBao();
+    public List<Notification> getAllNotificationController() {
+        return notificationService.getAllNotification();
     }
 
     @GetMapping("/chuadoc")
-    public List<Notification> getThongBaoChuaDoc() {
-        return notificationService.getThongBaoChuaDoc();
+    public List<Notification> getAllNotificationNotReadController() {
+        return notificationService.getAllNotificationNotRead();
     }
 
     @PostMapping("/doc")
     public void markAsRead(@RequestBody Notification notification) {
         System.out.println(notification);
-        notificationService.deleteThongBao(notification);
+        notificationService.deleteNotification(notification);
     }
+
     @GetMapping("/emergency_notice")
-    public List<EmergencyNotice> getAllEmergencyNoticeController(){
+    public List<EmergencyNotice> getAllEmergencyNoticeController() {
         return emergencyNoticeService.getAllEmergencyNotice();
     }
+
     @GetMapping("/type_notification")
-    public List<TypeNotification> getAllTypeNotificationController(){
+    public List<TypeNotification> getAllTypeNotificationController() {
         return emergencyNoticeService.getAllTypeNotification();
     }
+
     @PostMapping("/create_emergency_notice")
-    public EmergencyNotice createEmergencyNoticeController(EmergencyNotice emergencyNotice){
+    public EmergencyNotice createEmergencyNoticeController(@RequestBody EmergencyNotice emergencyNotice) {
+        System.out.println(emergencyNotice);
         return emergencyNoticeService.createEmergencyNotice(emergencyNotice);
     }
 }

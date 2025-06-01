@@ -1,5 +1,6 @@
 package com.example.demo2.service.impl;
 
+import com.example.demo2.model.ConveyorBelt;
 import com.example.demo2.model.Notification;
 import com.example.demo2.model.Role;
 import com.example.demo2.model.User;
@@ -36,7 +37,7 @@ public class UserService {
         // Kiểm tra username đã tồn tại chưa
         Query query = new Query(Criteria.where("username").is(user.getUsername()));
         if (mongoTemplate.exists(query, User.class)) {
-            throw new RuntimeException("Username already exists");
+            throw new RuntimeException("Tên tài khoản đã đăng ký");
         }
         // Mã hóa password trước khi lưu
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -47,7 +48,7 @@ public class UserService {
     public LoginResponse login(String username, String password) {
         Query query = new Query(Criteria.where("username").is(username));
         User user = mongoTemplate.findOne(query, User.class);
-
+        System.out.println(user);
         if (user != null && passwordEncoder.matches(password, user.getPassword())) {
             // Cập nhật trạng thái online
             Update update = new Update()
@@ -153,5 +154,12 @@ public class UserService {
     public User findById(String id) {
         Query query = new Query(Criteria.where("id").is(id));
         return mongoTemplate.findOne(query, User.class);
+    }
+    public ConveyorBelt findConveyorBeltOfUser(String username){
+        Query query = new Query(Criteria.where("username").is(username));
+        User user =  mongoTemplate.findOne(query, User.class);
+        System.out.println("user");
+        System.out.println(user);
+        return user.getConveyorBelt();
     }
 }
